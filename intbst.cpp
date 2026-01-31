@@ -77,10 +77,8 @@ void IntBST::printPreOrder(Node *n) const {
 
 // print tree data in-order, with helper
 void IntBST::printInOrder() const {
-    if (root) {
-        printInOrder(root);
-    }
-    cout << endl;
+    if(!n) return;
+    else printInOrder(root);
 }
 void IntBST::printInOrder(Node *n) const {
     if (!n) return;
