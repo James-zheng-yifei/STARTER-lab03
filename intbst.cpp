@@ -25,7 +25,11 @@ void IntBST::clear(IntBST::Node *n) {
 
 // insert value in tree; return false if duplicate
 bool IntBST::insert(int value) {
-        return insert(value, root);
+    if (!root) {
+        root = new Node(value);
+        return true;
+    }
+    return insert(value, root);
 }
 
 // recursive helper for insert (assumes n is never 0)
@@ -50,6 +54,7 @@ bool IntBST::insert(int value, Node* n) {
 void IntBST::printPreOrder() const {
 
     printPreOrder(root);
+    cout << endl;
 }
 
 // recursive helper for printPreOrder()
@@ -97,6 +102,7 @@ int IntBST::sum(IntBST::Node *n) const {
 
 // return count of values
 int IntBST::count() const {
+    if (!n) return 0;
     return count(root);
 }
 
