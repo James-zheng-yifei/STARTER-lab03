@@ -73,7 +73,7 @@ void IntBST::printInOrder() const {
     cout << endl;
 }
 void IntBST::printInOrder(IntBST::Node *n) const {
-    if(!n) return;
+    if (!n) return;
     printInOrder(n->left);
     cout << n->info << " ";
     printInOrder(n->right);
@@ -203,7 +203,7 @@ int IntBST::getSuccessor(int value) const{
 // deletes the Node containing the given value from the tree
 // returns true if the node exist and was deleted or false if the node does not exist
 bool IntBST::remove(int value){
-     Node* curr = root;
+    Node* curr = root;
     Node* parent = nullptr;
 
     while (curr && curr->info != value) {
@@ -214,10 +214,29 @@ bool IntBST::remove(int value){
             curr = curr->right;
     }
 
-    if (!curr) return false; 
+    if (!curr) return false;
 
     
-    if (!curr->left || !curr->right) {
+    if (curr->left && curr->right) {
+        Node* predParent = curr;
+        Node* pred = curr->left;
+
+        while (pred->right) {
+            predParent = pred;
+            pred = pred->right;
+        }
+
+        curr->info = pred->info;
+
+        if (predParent->right == pred)
+            predParent->right = pred->left;
+        else
+            predParent->left = pred->left;
+
+        delete pred;
+    }
+    
+    else {
         Node* child = curr->left ? curr->left : curr->right;
 
         if (!parent)
@@ -228,25 +247,6 @@ bool IntBST::remove(int value){
             parent->right = child;
 
         delete curr;
-    }
-    
-    else {
-        Node* parentPred = curr;
-        Node* pred = curr->left;
-
-        while (pred->right) {
-            parentPred = pred;
-            pred = pred->right;
-        }
-
-        curr->info = pred->info;
-
-        if (parentPred->right == pred)
-            parentPred->right = pred->left;
-        else
-            parentPred->left = pred->left;
-
-        delete pred;
     }
 
     return true;
