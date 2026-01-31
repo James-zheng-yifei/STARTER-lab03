@@ -70,6 +70,7 @@ void IntBST::printPreOrder(IntBST::Node *n) const {
 // print tree data in-order, with helper
 void IntBST::printInOrder() const {
     printInOrder(root);
+    cout << endl;
 }
 void IntBST::printInOrder(IntBST::Node *n) const {
     if(!n) return;
@@ -81,6 +82,7 @@ void IntBST::printInOrder(IntBST::Node *n) const {
 // prints tree data post-order, with helper
 void IntBST::printPostOrder() const {
     printPostOrder(root);
+    cout << endl;
 }
 
 void IntBST::printPostOrder(IntBST::Node *n) const {
@@ -102,7 +104,6 @@ int IntBST::sum(IntBST::Node *n) const {
 
 // return count of values
 int IntBST::count() const {
-    if (!n) return 0;
     return count(root);
 }
 
@@ -133,15 +134,29 @@ bool IntBST::contains(int value) const {
 // returns the Node containing the predecessor of the given value
 IntBST::Node* IntBST::getPredecessorNode(int value) const{
     Node* curr = root;
-    Node* pre = nullptr;
-    while(curr){
-        if(value > curr->info) { 
-            pre = curr;
+    Node* predecessor = nullptr;
+
+    while (curr) {
+        if (value > curr->info) {
+            predecessor = curr;
             curr = curr->right;
+        } else if (value < curr->info) {
+            curr = curr->left;
+        } else {
+            break;
         }
-        else curr = curr->left;
     }
-    return pre;
+
+    if (!curr) return nullptr;
+
+    if (curr->left) {
+        curr = curr->left;
+        while (curr->right)
+            curr = curr->right;
+        return curr;
+    }
+
+    return predecessor;
 }
 
 
@@ -153,16 +168,30 @@ int IntBST::getPredecessor(int value) const{
 
 // returns the Node containing the successor of the given value
 IntBST::Node* IntBST::getSuccessorNode(int value) const{
-    Node* curr = root;
-    Node* pre = nullptr;
-    while(curr){
-        if(value < curr->info) { 
-            pre = curr;
+   Node* curr = root;
+    Node* successor = nullptr;
+
+    while (curr) {
+        if (value < curr->info) {
+            successor = curr;
             curr = curr->left;
+        } else if (value > curr->info) {
+            curr = curr->right;
+        } else {
+            break;
         }
-        else curr = curr->right;
     }
-    return pre;
+
+    if (!curr) return nullptr;
+
+    if (curr->right) {
+        curr = curr->right;
+        while (curr->left)
+            curr = curr->left;
+        return curr;
+    }
+
+    return successor;
 }
 
 // returns the successor value of the given value or 0 if there is none
@@ -202,11 +231,22 @@ bool IntBST::remove(int value){
     }
     
     else {
+        Node* parentPred = curr;
         Node* pred = curr->left;
-        while (pred->right) pred = pred->right;
-        int predValue = pred->info;
-        remove(predValue);
-        curr->info = predValue;
+
+        while (pred->right) {
+            parentPred = pred;
+            pred = pred->right;
+        }
+
+        curr->info = pred->info;
+
+        if (parentPred->right == pred)
+            parentPred->right = pred->left;
+        else
+            parentPred->left = pred->left;
+
+        delete pred;
     }
 
     return true;
