@@ -102,7 +102,8 @@ int IntBST::count() const {
 
 // recursive helper for count
 int IntBST::count(IntBST::Node *n) const {
-    return 1 + count(n->right) + count(n->left);
+    if (!n) return 0;
+    return 1 + count(n->left) + count(n->right);
 }
 
 // IMPLEMENT THIS FIRST: returns the node for a given value or NULL if none exists
@@ -160,7 +161,8 @@ IntBST::Node* IntBST::getSuccessorNode(int value) const{
 
 // returns the successor value of the given value or 0 if there is none
 int IntBST::getSuccessor(int value) const{
-    return getSuccessorNode(value)->info;
+    Node* s = getSuccessorNode(value);
+    return s ? s->info : 0;
 }
 
 // deletes the Node containing the given value from the tree
@@ -194,7 +196,8 @@ bool IntBST::remove(int value){
     }
     
     else {
-        Node* pred = getPredecessorNode(value);
+        Node* pred = curr->left;
+        while (pred->right) pred = pred->right;
         int predValue = pred->info;
         remove(predValue);
         curr->info = predValue;
