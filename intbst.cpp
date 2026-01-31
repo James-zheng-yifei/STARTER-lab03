@@ -57,7 +57,6 @@ void IntBST::printPreOrder() const {
     if (root) {
         printPreOrder(root);
     }
-    cout << endl;
 }
 
 // recursive helper for printPreOrder()
@@ -79,11 +78,11 @@ void IntBST::printPreOrder(Node *n) const {
 // print tree data in-order, with helper
 void IntBST::printInOrder() const {
     printInOrder(root);
-    cout << endl;
 }
 void IntBST::printInOrder(Node *n) const {
-    if (!n) return;
-    
+    if (!n) {
+        return;
+    }
     // Print left subtree
     if (n->left) {
         printInOrder(n->left);
@@ -102,8 +101,8 @@ void IntBST::printInOrder(Node *n) const {
 
 // prints tree data post-order, with helper
 void IntBST::printPostOrder() const {
+    if(root)
     printPostOrder(root);
-    cout << endl;
 }
 
 void IntBST::printPostOrder(Node *n) const {
