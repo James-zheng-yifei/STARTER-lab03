@@ -7,6 +7,7 @@
 #include <iostream>
 using std::cout;
 using std::vector;
+using namespace std;
 
 // constructor sets up empty tree
 IntBST::IntBST() : root(nullptr){}
