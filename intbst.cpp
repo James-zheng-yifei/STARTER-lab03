@@ -78,21 +78,22 @@ void IntBST::printPreOrder(Node *n) const {
 
 // print tree data in-order, with helper
 void IntBST::printInOrder() const {
-    if (root) {
-        printInOrder(root);
-    }
+    printInOrder(root);
     cout << endl;
 }
 void IntBST::printInOrder(Node *n) const {
     if (!n) return;
-
+    
+    // Print left subtree
     if (n->left) {
         printInOrder(n->left);
         cout << " ";
     }
-
+    
+    // Print current node
     cout << n->info;
-
+    
+    // Print right subtree
     if (n->right) {
         cout << " ";
         printInOrder(n->right);
@@ -101,24 +102,26 @@ void IntBST::printInOrder(Node *n) const {
 
 // prints tree data post-order, with helper
 void IntBST::printPostOrder() const {
-    if (root) {
-        printPostOrder(root);
-    }
+    printPostOrder(root);
     cout << endl;
 }
 
 void IntBST::printPostOrder(Node *n) const {
     if(!n) return;
-
+    
+    // Print left subtree
     if (n->left) {
         printPostOrder(n->left);
         cout << " ";
     }
+    
+    // Print right subtree
     if (n->right) {
         printPostOrder(n->right);
         cout << " ";
     }
-
+    
+    // Print current node
     cout << n->info;
 }
 
@@ -233,9 +236,10 @@ int IntBST::getSuccessor(int value) const{
 // deletes the Node containing the given value from the tree
 // returns true if the node exist and was deleted or false if the node does not exist
 bool IntBST::remove(int value){
-    Node* curr = root;
     Node* parent = nullptr;
-
+    Node* curr = root;
+    
+    // Find the node to delete and its parent
     while (curr && curr->info != value) {
         parent = curr;
         if (value < curr->info)
@@ -243,42 +247,49 @@ bool IntBST::remove(int value){
         else
             curr = curr->right;
     }
-
-    if (!curr) return false;
-
     
+    if (!curr) return false; // Value not found
+    
+    // Case 1: Node has two children
     if (curr->left && curr->right) {
+        // Find predecessor (largest in left subtree)
         Node* predParent = curr;
         Node* pred = curr->left;
-
+        
         while (pred->right) {
             predParent = pred;
             pred = pred->right;
         }
-
+        
+        // Replace curr's value with predecessor's value
         curr->info = pred->info;
-
-        if (predParent->right == pred)
-            predParent->right = pred->left;
-        else
+        
+        // Now remove the predecessor node
+        if (predParent == curr) {
+            // Predecessor is direct left child
             predParent->left = pred->left;
-
+        } else {
+            predParent->right = pred->left;
+        }
+        
         delete pred;
     }
-    
+    // Case 2 & 3: Node has 0 or 1 child
     else {
-        Node* child = curr->left ? curr->left : curr->right;
-
-        if (!parent)
+        Node* child = (curr->left) ? curr->left : curr->right;
+        
+        if (!parent) {
+            // Deleting root
             root = child;
-        else if (parent->left == curr)
+        } else if (parent->left == curr) {
             parent->left = child;
-        else
+        } else {
             parent->right = child;
-
+        }
+        
         delete curr;
     }
-
+    
     return true;
 }
 
