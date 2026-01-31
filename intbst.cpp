@@ -17,7 +17,7 @@ IntBST::~IntBST() {
 }
 
 // recursive helper for destructor
-void IntBST::clear(IntBST::Node *n) {
+void IntBST::clear(Node *n) {
     if(!n) return;
     clear(n->left);
     clear(n->right);
@@ -60,7 +60,7 @@ void IntBST::printPreOrder() const {
 }
 
 // recursive helper for printPreOrder()
-void IntBST::printPreOrder(IntBST::Node *n) const {
+void IntBST::printPreOrder(Node *n) const {
     if(!n) return;
 
     cout << n->info;
@@ -82,7 +82,7 @@ void IntBST::printInOrder() const {
     }
     cout << endl;
 }
-void IntBST::printInOrder(IntBST::Node *n) const {
+void IntBST::printInOrder(Node *n) const {
     if (!n) return;
 
     if (n->left) {
@@ -106,7 +106,7 @@ void IntBST::printPostOrder() const {
     cout << endl;
 }
 
-void IntBST::printPostOrder(IntBST::Node *n) const {
+void IntBST::printPostOrder(Node *n) const {
     if(!n) return;
 
     if (n->left) {
@@ -126,7 +126,7 @@ int IntBST::sum() const {
 }
 
 // recursive helper for sum
-int IntBST::sum(IntBST::Node *n) const {
+int IntBST::sum(Node *n) const {
     if(!n) return 0;
     return n->info + sum(n->left) + sum(n->right);
 }
@@ -137,7 +137,7 @@ int IntBST::count() const {
 }
 
 // recursive helper for count
-int IntBST::count(IntBST::Node *n) const {
+int IntBST::count(Node *n) const {
     if (!n) return 0;
     return 1 + count(n->left) + count(n->right);
 }
@@ -148,7 +148,7 @@ int IntBST::count(IntBST::Node *n) const {
 // Node* n: the node to start with (for a recursive call)
 // Whenever you call this method from somewhere else, pass it
 // the root node as "n"
-IntBST::Node* IntBST::getNodeFor(int value, IntBST::Node* n) const{
+IntBST::Node* IntBST::getNodeFor(int value, Node* n) const{
     if(!n) return nullptr;
     if(n->info == value) return n;
     if(value < n->info) return getNodeFor(value, n->left);
