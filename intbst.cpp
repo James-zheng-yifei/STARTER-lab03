@@ -3,9 +3,10 @@
 // Yifei Zheng 1/30/2026
 
 #include "intbst.h"
-
+#include <vector>
 #include <iostream>
 using std::cout;
+using std::vector;
 
 // constructor sets up empty tree
 IntBST::IntBST() : root(nullptr){}
@@ -52,8 +53,9 @@ bool IntBST::insert(int value, Node* n) {
 
 // print tree data pre-order
 void IntBST::printPreOrder() const {
-
-    printPreOrder(root);
+    if (root) {
+        printPreOrder(root);
+    }
     cout << endl;
 }
 
@@ -61,35 +63,62 @@ void IntBST::printPreOrder() const {
 void IntBST::printPreOrder(IntBST::Node *n) const {
     if(!n) return;
 
-    cout << n->info << " "; // IMPLEMENT HERE
+    cout << n->info;
 
-    printPreOrder(n->left);
-    printPreOrder(n->right);
+    if (n->left) {
+        cout << " ";
+        printPreOrder(n->left);
+    }
+    if (n->right) {
+        cout << " ";
+        printPreOrder(n->right);
+    }
 }
 
 // print tree data in-order, with helper
 void IntBST::printInOrder() const {
-    printInOrder(root);
+    if (root) {
+        printInOrder(root);
+    }
     cout << endl;
 }
 void IntBST::printInOrder(IntBST::Node *n) const {
     if (!n) return;
-    printInOrder(n->left);
-    cout << n->info << " ";
-    printInOrder(n->right);
+
+    if (n->left) {
+        printInOrder(n->left);
+        cout << " ";
+    }
+
+    cout << n->info;
+
+    if (n->right) {
+        cout << " ";
+        printInOrder(n->right);
+    }
 }
 
 // prints tree data post-order, with helper
 void IntBST::printPostOrder() const {
-    printPostOrder(root);
+    if (root) {
+        printPostOrder(root);
+    }
     cout << endl;
 }
 
 void IntBST::printPostOrder(IntBST::Node *n) const {
     if(!n) return;
-    printPostOrder(n->left);
-    printPostOrder(n->right);
-    cout << n->info << " ";
+
+    if (n->left) {
+        printPostOrder(n->left);
+        cout << " ";
+    }
+    if (n->right) {
+        printPostOrder(n->right);
+        cout << " ";
+    }
+
+    cout << n->info;
 }
 
 int IntBST::sum() const {
